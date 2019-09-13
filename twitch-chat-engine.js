@@ -150,6 +150,18 @@
 		}
 	}
 	
+	// Matches posts by a specific user
+	class UserTrigger extends ListenerTrigger {
+		constructor(user) {
+			super();
+			this.user = user.toUpperCase();
+		}
+		
+		matches(details) {
+			return details.username.toUpperCase() === this.user;
+		}
+	}
+	
 	// Matches when all of two or more other triggers also match
 	class ConjunctionTrigger extends ListenerTrigger {
 		constructor(triggers) {
@@ -356,7 +368,7 @@
 					// Mentions eg. @so_and_so
 					let mentionText = element.textContent;
 					
-					let match = mentionText.match(/^@(.*)$/);
+					let match = mentionText.match(/^@?(.*)$/);
 					assert(match, `Mention text did not match expected format: "${mentionText}"`);
 					let userMentioned = match[1];
 					
@@ -418,12 +430,18 @@
 				throw new Error("Unknown message component");
 			}
 			
+			// username
+			let usernameField = msg.querySelector(".chat-author__display-name");
+			assert(usernameField, "Failed to find message's username element");
+			let username = usernameField.textContent;
+			
 			return {
 				text: messageText,
 				textWithoutEmotes, 
 				emotes,
 				mentions: usersMentioned,
 				bits,
+				username,
 			};
 		}
 		
@@ -462,6 +480,7 @@
 	ChatBot.BitsTrigger = BitsTrigger;
 	ChatBot.MentionTrigger = MentionTrigger;
 	ChatBot.EmoteOnlyTrigger = EmoteOnlyTrigger;
+	ChatBot.UserTrigger = UserTrigger;
 	
 	window.ChatBot = ChatBot;
 })();
