@@ -12,12 +12,12 @@
 	class ListenerTrigger {
 		// Return a ListenerTrigger which matches when both this and that match
 		and(that) {
-			// If either is a NoMessagesTrigger, the conjuction can never return true
+			// If either is a NoMessagesTrigger, the conjunction can never return true
 			if (this instanceof NoMessagesTrigger || that instanceof NoMessagesTrigger) {
 				return new NoMessagesTrigger();
 			}
 			
-			// If either is an AllMessagesTrigger, the conjuction will function the same as the other parameter
+			// If either is an AllMessagesTrigger, the conjunction will function the same as the other parameter
 			if (this instanceof AllMessagesTrigger) {
 				return that;
 			}
@@ -453,4 +453,15 @@
 		
 		// inputBox.value = prevText;
 	// }
+	
+	ChatBot.AllMessagesTrigger = AllMessagesTrigger;
+	ChatBot.NoMessagesTrigger = NoMessagesTrigger
+	ChatBot.TextRegexTrigger = TextRegexTrigger;
+	ChatBot.EmoteTrigger = EmoteTrigger;
+	ChatBot.EmoteRegexTrigger = EmoteRegexTrigger;
+	ChatBot.BitsTrigger = BitsTrigger;
+	ChatBot.MentionTrigger = MentionTrigger;
+	ChatBot.EmoteOnlyTrigger = EmoteOnlyTrigger;
+	
+	window.ChatBot = ChatBot;
 })();
